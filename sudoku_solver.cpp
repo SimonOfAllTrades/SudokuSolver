@@ -7,7 +7,12 @@ class Sudoku {
 
 public:
     vector<vector<int>> board;
+    vector<vector<set<int>>> partialBoard;
     int n;
+
+    Sudoku(vector<vector<int>> board, int n): board(board), n(n) {
+        
+    }
 
     set<int> fullSet() {
         set<int> ret;
@@ -51,15 +56,48 @@ public:
         return ret;
     }
 
-    Sudoku(vector<vector<int>> board, int n): board(board), n(n) {
+    int countRowOccurance(int row, int num) {
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            if (partialBoard[row][i].find(num)) {
+                ++count;
+            }
+        }
 
+        return count;
+    }
+
+    int countColumnOccurance(int col, int num) {
+        int count = 0;
+        for (int i = 0; i < n; ++i) {
+            if (partialBoard[i][col].find(num)) {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+    
+    // Solving Methods
+
+    void fullHouse() {
+        
+    }
+
+    void solveSingles() {
+        fullHouse();
     }
 
     Sudoku solve() {
-        set<int> mySet = getValidNumbers(1, 0);
-        for (auto it = mySet.begin(); it != mySet.end(); it++) {
-            cout << *it << " ";
+        for (int i = 0; i < n; ++i) {
+            vector<set<int>> row;
+            for (int j = 0; j < n; ++j) {
+                row.push_back(getValidNumbers(i, j));
+            }
+            partialBoard.push_back(row);
         }
+        
+
     }
 
     void prettyPrint() {
